@@ -12,13 +12,13 @@ This guide additionally assumes that the root folder will be built at ```~/Docum
 cd ~/Documents
 mkdir pymesh
 cd pymesh
-wget .../
+wget -O setup.tar https://github.com/topologicalhurt/nlattice/raw/main/setup.tar
 ```
 
 __> ℹ️ You may also want to consider creating the test_model_setup.py to get used to using emacs in an SSH session shell. More info later in the guide on this.__
 
 > [!WARNING]
-> Also ensure that you do not create a docker container in-between running commands as ```docker ps <args> -l``` is the first container on > the creation stack.
+> Also ensure that you do not create a docker container in-between running commands as ```docker ps <args> -l``` is the first container on the creation stack.
 
 ## 🪟 WINDOWS:
 
