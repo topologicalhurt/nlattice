@@ -28,7 +28,7 @@ wget -O setup.tar https://github.com/topologicalhurt/nlattice/raw/main/setup.tar
 ```
 docker run -it -d pymesh/pymesh
 $CONTAINER_ID = docker ps -q -l
-docker cp setup.tar "$($CONTAINER_ID):/root/models/"
+docker cp setup.tar "$($CONTAINER_ID):/root/"
 docker exec -it $CONTAINER_ID /bin/bash
 tar -xf setup.tar; rm setup.tar
 ```
