@@ -17,7 +17,7 @@ cd pymesh
 wget -O setup.tar https://github.com/topologicalhurt/nlattice/raw/main/setup.tar
 ```
 
-> [!INFO]
+> [!INFORMATION]
 > You may also want to consider creating the test_model_setup.py to get used to using emacs in an SSH session shell. More info later in the guide on this.
 
 > [!WARNING]
