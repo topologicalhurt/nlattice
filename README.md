@@ -17,7 +17,7 @@ cd pymesh
 wget -O setup.tar https://github.com/topologicalhurt/nlattice/raw/main/setup.tar
 ```
 
-> [!INFORMATION]
+> [!NOTE]
 > You may also want to consider creating the test_model_setup.py to get used to using emacs in an SSH session shell. More info later in the guide on this.
 
 > [!WARNING]
@@ -33,7 +33,15 @@ docker exec -it $CONTAINER_ID /bin/bash
 tar -xf setup.tar; rm setup.tar
 ```
 
-From here it is valid to run: ```cd setup & python3 setup.py``` but the image comes with an unupdated python environment variable which we will now fix (this is a slightly modified version of this helpful guide here https://aruljohn.com/blog/install-python-debian/):
+From here it is valid to run the following - keeping in mind this is the quick and 'careless' way of doing things and it is heavily reccomended to use a virtualenv especially because the image seems to be a bit bloated.
+
+```
+pip3 install regex
+cd setup
+python3 setup.py
+```
+
+But the image comes with an unupdated python environment variable which we will now fix (this is a slightly modified version of this helpful guide here https://aruljohn.com/blog/install-python-debian/):
 
 ```
 apt update
