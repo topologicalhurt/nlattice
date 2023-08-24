@@ -12,18 +12,54 @@ This guide additionally assumes that the root folder will be built at ```~/Docum
 cd ~/Documents
 mkdir pymesh
 cd pymesh
+wget .../
 ```
 
-If you have not done so already download **test_model.stl** from the repository and place it in the **pymesh** folder
+__> ℹ️ You may also want to consider creating the test_model_setup.py to get used to using emacs in an SSH session shell. More info later in the guide on this.__
 
-## In windows:
+> [!WARNING]
+> Also ensure that you do not create a docker container in-between running commands as ```docker ps <args> -l``` is the first container on > the creation stack.
 
-```
-start PowerShell {docker run -it pymesh/pymesh; Read-Host}
-start PowerShell {docker exec -it $(docker ps -q) /bin/bash; Read-Host}
-```
-
-## In linux:
+## 🪟 WINDOWS:
 
 ```
+docker run -it -d pymesh/pymesh
+$CONTAINER_ID = docker ps -q -l
+docker cp setup.tar "$($CONTAINER_ID):/root/models"
+docker exec -it $CONTAINER_ID /bin/bash
+cd models
+tar -xf setup.tar & rm setup.tar
+```
+
+From here it is valid to run: ```cd setup & python3 setup.py``` but the image comes with an unupdated python environment variable which we will now fix (this is a slightly modified version of this helpful guide here https://aruljohn.com/blog/install-python-debian/):
+
+```
+apt update
+cd /tmp/
+wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz
+tar -xzvf Python-3.11.4.tgz
+cd Python-3.11.4
+apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev
+./configure --enable-optimizations
+make -j `nproc`
+make install
+```
+
+When you run ```python3 -v``` it should now return ```Python 3.11.4```
+
+Now run:
+
+```
+cd /root/models/setup
+python3 setup.py
+```
+
+The program should successfully display the number of vertices, faces & edges.
+
+If you would like some experience getting used to emacs:
+
+```
+apt-get install emacs
+touch setup.py
+emacs setup.py
 ```
