@@ -25,9 +25,8 @@ __> ℹ️ You may also want to consider creating the test_model_setup.py to get
 ```
 docker run -it -d pymesh/pymesh
 $CONTAINER_ID = docker ps -q -l
-docker cp setup.tar "$($CONTAINER_ID):/root/models"
+docker cp setup.tar "$($CONTAINER_ID):/root/models/"
 docker exec -it $CONTAINER_ID /bin/bash
-cd models
 tar -xf setup.tar & rm setup.tar
 ```
 
@@ -50,7 +49,7 @@ When you run ```python3 -v``` it should now return ```Python 3.11.4```
 Now run:
 
 ```
-cd /root/models/setup
+cd /root/setup
 python3 setup.py
 ```
 
