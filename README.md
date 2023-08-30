@@ -9,7 +9,7 @@ Before running the setup you will need WSL2 (windows subsystem for linux) and ha
 
 ```
 wsl --install
-wsl --set-version <distro name> 2
+wsl --set-version Ubuntu 2
 wsl --set-default Ubuntu
 ```
 
