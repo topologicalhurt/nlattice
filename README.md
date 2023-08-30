@@ -1,7 +1,26 @@
 # nlattice
 The objective of this project is to develop a program to process a 3D object in surface triangle mesh format (STL file) and generate a valid STL file of a lattice object representing the same form as the input. 
 
-## Setup:
+## Reccomended setup:
+
+### 🪟 WINDOWS:
+
+Before running the setup you will need WSL2 (windows subsystem for linux) and have the Ubuntu distro installed (feel free to use another distro.)
+
+```
+wsl --install
+wsl --set-version <distro name> 2
+wsl --set-default Ubuntu
+```
+
+Then run ```python$ver$ setup.py```
+
+### 🐧 LINUX:
+
+Run ```python$ver$ setup.py```
+
+
+## ~~Reccomended~~ Setup:
 
 __ℹ️ The purpose of this setup is to create a local docker instance for pymesh sandboxing & experimentation that runs separate to the shared SSH docker instanceℹ️__
 
