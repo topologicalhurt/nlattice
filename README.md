@@ -9,7 +9,7 @@ This guide additionally assumes that the root folder will be built at ```~/Docum
 
 ## Reccomended setup:
 
-### 🪟 WINDOWS & 🐧 LINUX
+###INSTALL SUPPORTED ON BOTH 🪟 WINDOWS & 🐧 LINUX
 
 Either simply download setup.zip (NOT setup.tar) and run ```python nlattice_docker_install_V0.0.1.py``` or do the following:
 
@@ -22,6 +22,13 @@ tar xopf setup.tar
 cd setup
 python nlattice_docker_install_V0.0.1.py
 ```
+
+###ACCESSING THE TERMINAL ON 🪟 WINDOWS
+
+At the root directory simply run ```run.bat``` as administrator like below:
+
+![Screenshot 2023-08-31 193240](https://github.com/topologicalhurt/nlattice/assets/85112999/278738f5-51d6-4b4a-b192-24e0393818f0)
+
 
 ## ~~Reccomended~~ Deprecated Setup:
 
