@@ -1,33 +1,26 @@
 # nlattice
 The objective of this project is to develop a program to process a 3D object in surface triangle mesh format (STL file) and generate a valid STL file of a lattice object representing the same form as the input. 
 
-## Reccomended setup:
-
-### 🪟 WINDOWS:
-
-Before running the setup you will need WSL2 (windows subsystem for linux) and have the Ubuntu distro installed (feel free to use another distro.)
-
-```
-wsl --install
-wsl --set-version Ubuntu 2
-wsl --set-default Ubuntu
-```
-
-Then run ```python$ver$ setup.py```
-
-### 🐧 LINUX:
-
-Run ```python$ver$ setup.py```
-
-
-## ~~Reccomended~~ Setup:
-
 __ℹ️ The purpose of this setup is to create a local docker instance for pymesh sandboxing & experimentation that runs separate to the shared SSH docker instanceℹ️__
 
-This project runs a modified version of the public pymesh docker image. The first steps are almost identical to https://github.com/PyMesh/PyMesh/blob/main/README.md
+This project runs a modified version of the public pymesh docker image. See: https://github.com/PyMesh/PyMesh/blob/main/README.md
 
-This guide additionally assumes that the root folder will be built at ```~/Documents/pymesh``` and it also assumes that docker is installed https://docs.docker.com/get-docker/
+This guide additionally assumes that the root folder will be built at ```~/Documents/pymesh_sandbox``` and it also assumes that docker is installed https://docs.docker.com/get-docker/
 
+## Reccomended setup:
+
+### 🪟 WINDOWS & 🐧 LINUX
+
+```
+cd ~/Documents
+mkdir pymesh_sandbox
+cd pymesh_sandbox
+wget -O setup.tar https://github.com/topologicalhurt/nlattice/raw/main/setup.zip
+cd setup
+python nlattice_docker_install_V0.0.1.py
+```
+
+## ~~Reccomended~~ Deprecated Setup:
 
 ```
 cd ~/Documents
