@@ -11,11 +11,14 @@ This guide additionally assumes that the root folder will be built at ```~/Docum
 
 ### 🪟 WINDOWS & 🐧 LINUX
 
+Either simply download setup.zip (NOT setup.tar) and run ```python nlattice_docker_install_V0.0.1.py``` or do the following:
+
 ```
 cd ~/Documents
 mkdir pymesh_sandbox
 cd pymesh_sandbox
 wget -O setup.tar https://github.com/topologicalhurt/nlattice/raw/main/setup.zip
+tar xopf setup.tar
 cd setup
 python nlattice_docker_install_V0.0.1.py
 ```
