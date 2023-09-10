@@ -1,5 +1,24 @@
 import pymesh as pm
 import numpy as np
+from scipy.spatial import Delaunay
+import matplotlib.pyplot as plt
+
+def delaunay_wireframe(mesh):
+    points = mesh.vertices
+    tri = Delaunay(points)
+
+    # Below code is to display with matplotlib
+    # Plot points
+    # fig = plt.figure()
+    # ax = fig.add_subplot(111, projection='3d')
+    # ax.scatter(points[:, 0], points[:, 1], points[:, 2])
+
+    # Plot Delaunay triangulation wireframe
+    # ax.plot_trisurf(points[:, 0], points[:, 1], points[:, 2], triangles=tri.simplices, edgecolor='black', linewidth=0.2,
+    #                 alpha=0.1)
+
+    # plt.show()
+    return tri
 
 
 def print_wire_data(wn):
