@@ -1,0 +1,9 @@
+v1.1
+
++ Changed get_wire_info to get_wireframe
++ get_wire_info now takes vertices and faces as the inputs
++ delaunay first impl
++ original impl still available with get_wire_info_prototype
+- removed some redundant commenting (code cleanup)
+
+This doesn't work very well (the delaunay function needs work or needs a better point cloud of surface)

@@ -4,36 +4,33 @@ from scipy.spatial import Delaunay
 import matplotlib.pyplot as plt
 
 def delaunay_wireframe(mesh):
-    points = mesh.vertices
+    points = np.dot(mesh.vertices, 5)
     tri = Delaunay(points)
-
-    # Below code is to display with matplotlib
-    # Plot points
-    # fig = plt.figure()
-    # ax = fig.add_subplot(111, projection='3d')
-    # ax.scatter(points[:, 0], points[:, 1], points[:, 2])
-
-    # Plot Delaunay triangulation wireframe
-    # ax.plot_trisurf(points[:, 0], points[:, 1], points[:, 2], triangles=tri.simplices, edgecolor='black', linewidth=0.2,
-    #                 alpha=0.1)
-
-    # plt.show()
     return tri
-
 
 def print_wire_data(wn):
     print(f"Dim: {wn.dim}")
     print(f"Vertices: {wn.num_vertices}")
     print(f"Edges: {wn.num_edges}")
 
+def get_wireframe(mesh):
+    # You can switch to the legacy impl using get_wire_info_prototype (can remove this later)
+    v, e = get_wire_info_delaunay(mesh)
+    # v, e = get_wire_info_prototype(mesh)
+    return get_wire_info(v, e)
 
-def get_wire_info(mesh):
-    vertices = np.dot(mesh.vertices, 3)
 
-    faces = mesh.faces
+def get_wire_info_delaunay(mesh):
+    tri = delaunay_wireframe(mesh)
+    faces = tri.simplices
+    print(tri.simplices)
+    return tri.points, faces
 
-    # getting edges
-    # mesh.enable_connectivity() csdf
+def get_wire_info_prototype(mesh):
+    return np.dot(mesh.vertices, 3), mesh.faces
+
+def get_wire_info(vertices, faces):
+
     edges = []
     check = []
     for f in range(len(vertices)):
@@ -44,7 +41,6 @@ def get_wire_info(mesh):
 
     for v in range(len(faces)):
 
-       #  print(v, adjacent)
         for a in range(len(faces[v])-1):
             x = faces[v][a]
             y = faces[v][a+1]
@@ -58,6 +54,7 @@ def get_wire_info(mesh):
             edges.append(temp)
 
     np_edges = np.array(edges)
+    print("EDGES")
     print(np_edges)
     return vertices, np_edges
 
@@ -65,6 +62,7 @@ def get_wire_info(mesh):
 if __name__ == "__main__":
     mesh = pm.load_mesh("pokemonstl/bulbasaur_starter_1gen_flowalistik.stl")
     # mesh = pm.generate_box_mesh(np.array([0, 0, 0]), np.array([20, 20, 20]), using_simplex=True)
+    mesh, __ = pm.collapse_short_edges(mesh, rel_threshold=0.25)
     print("Vertices, faces, voxels")
     print(mesh.num_vertices, mesh.num_faces, mesh.num_voxels)
     print("dim, vertex_per_face, vertex_per_voxel")
@@ -75,23 +73,12 @@ if __name__ == "__main__":
     # print(info["num_edge_collapsed"])
 
     # o_vertices, o_edges = get_wire_info(mesh)
-    """
-    tetgen = pm.tetgen()
-    tetgen.points = o_vertices
-    tetgen.triangles = mesh.faces
-    tetgen.max_tet_volume = 0.1
-    tetgen.verbosity = 0
-    tetgen.run()
-    new_mesh = tetgen.mesh
-    """
 
-    vertices, edges = get_wire_info(mesh)
+
+    vertices, edges = get_wireframe(mesh)
     wire_network = pm.wires.WireNetwork.create_from_data(vertices, edges)
 
-    # printing some data
     print_wire_data(wire_network)
-    # wire_network.trim()
-    # print_wire_data(wire_network)
 
     # Inflator
     inflator = pm.wires.Inflator(wire_network)
