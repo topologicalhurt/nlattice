@@ -1,7 +1,6 @@
 import pymesh as pm
 import numpy as np
-from scipy.spatial import ConvexHull
-import matplotlib.pyplot as plt
+import sys
 
 
 def print_wire_data(wn):
@@ -9,9 +8,8 @@ def print_wire_data(wn):
     print(f"Vertices: {wn.num_vertices}")
     print(f"Edges: {wn.num_edges}")
 
+
 def get_wireframe(mesh):
-    # You can switch to the legacy impl using get_wire_info_prototype (can remove this later)
-    # v, e = get_wire_info_delaunay(mesh)
     v, e = get_wire_info_prototype(mesh)
     return get_wire_info(v, e)
 
@@ -19,8 +17,8 @@ def get_wireframe(mesh):
 def get_wire_info_prototype(mesh):
     return np.dot(mesh.vertices, 3), mesh.faces
 
-def get_wire_info(vertices, faces):
 
+def get_wire_info(vertices, faces):
     edges = []
     check = []
     for f in range(len(vertices)):
@@ -31,9 +29,9 @@ def get_wire_info(vertices, faces):
 
     for v in range(len(faces)):
 
-        for a in range(len(faces[v])-1):
+        for a in range(len(faces[v]) - 1):
             x = faces[v][a]
-            y = faces[v][a+1]
+            y = faces[v][a + 1]
             if x == y:
                 continue
             if check[x][y]:
@@ -44,29 +42,38 @@ def get_wire_info(vertices, faces):
             edges.append(temp)
 
     np_edges = np.array(edges)
-    print("EDGES")
-    print(np_edges)
+    # Debugging lines
+    # print("EDGES")
+    # print(np_edges)
     return vertices, np_edges
 
 
+def parse_args():
+    file_path = sys.argv[1] if len(sys.argv) > 1 else None
+    wire_thickness = sys.argv[2] if len(sys.argv) > 2 else None
+    longest_line = sys.argv[3] if len(sys.argv) > 3 else None
+
+    if file_path is None or wire_thickness is None or longest_line is None:
+        print("Usage: python generate_surface_mesh.py <filepath> <wire thickness> <longest edge>")
+        exit()
+
+
+    else:
+        return file_path, float(wire_thickness), float(longest_line)
+
+
 if __name__ == "__main__":
-    mesh = pm.load_mesh("pokemonstl/bulbasaur_starter_1gen_flowalistik.stl")
+    path, thickness, longest_line = parse_args()
+    mesh = pm.load_mesh(path)
+    # Generate box for testing below
     # mesh = pm.generate_box_mesh(np.array([0, 0, 0]), np.array([20, 20, 20]), using_simplex=True)
     mesh, __ = pm.collapse_short_edges(mesh, rel_threshold=0.25)
-    mesh, info = pm.split_long_edges(mesh, 5)
-
+    mesh, info = pm.split_long_edges(mesh, longest_line)
 
     print("Vertices, faces, voxels")
     print(mesh.num_vertices, mesh.num_faces, mesh.num_voxels)
     print("dim, vertex_per_face, vertex_per_voxel")
     print(mesh.dim, mesh.vertex_per_face, mesh.vertex_per_voxel)
-
-    # tol = 2.0
-    # mesh, info = pm.collapse_short_edges(mesh, tol)
-    # print(info["num_edge_collapsed"])
-
-    # o_vertices, o_edges = get_wire_info(mesh)
-
 
     vertices, edges = get_wireframe(mesh)
     wire_network = pm.wires.WireNetwork.create_from_data(vertices, edges)
@@ -74,7 +81,7 @@ if __name__ == "__main__":
     print_wire_data(wire_network)
     # Inflator
     inflator = pm.wires.Inflator(wire_network)
-    inflator.inflate(0.2)
+    inflator.inflate(thickness)
     mesh = inflator.mesh
 
     # save the mesh

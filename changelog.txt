@@ -1,12 +1,4 @@
-v1.1 (prototypev1)
-
-+ Changed get_wire_info to get_wireframe
-+ get_wire_info now takes vertices and faces as the inputs
-+ delaunay first impl
-+ original impl still available with get_wire_info_prototype
-- removed some redundant commenting (code cleanup)
-
-This doesn't work very well (the delaunay function needs work or needs a better point cloud of surface)
+* delaunay ditched temporarily
 
 surface_triangulation
 
@@ -14,3 +6,15 @@ used in build pymesh functions to create a more refined surface mesh of the bulb
 
 By splitting long edges and collapsing short edges we achieve a more consistent pattern on the surface of the shape
 
+* surface_triangulationV2 *
+
++ renamed testPymesh.py to generate_surface_mesh.py
++ added some command line arguments:
+    usage:
+    python generate_surface_mesh.py <FilePath> <Wire Thickness> <Long Edge Collapse Length>
+    * Note that <Long Edge Collapse Length> is similar to something like <amount of detail>
+    * If thinking about it like "amount of detail", as the number goes down, detail goes up
+    example/recommended usage:
+    python generate_surface_mesh.py pokemonstl/bulbasaur_starter_1gen_flowalistik.stl 0.2 5
++ cleaned up some code
+* Note that args are currently not checked for errors sorry
