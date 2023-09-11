@@ -1,4 +1,4 @@
-v1.1
+v1.1 (prototypev1)
 
 + Changed get_wire_info to get_wireframe
 + get_wire_info now takes vertices and faces as the inputs
@@ -7,3 +7,10 @@ v1.1
 - removed some redundant commenting (code cleanup)
 
 This doesn't work very well (the delaunay function needs work or needs a better point cloud of surface)
+
+surface_triangulation
+
+used in build pymesh functions to create a more refined surface mesh of the bulbasaur.
+
+By splitting long edges and collapsing short edges we achieve a more consistent pattern on the surface of the shape
+
