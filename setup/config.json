@@ -1,0 +1,10 @@
+{
+    "Meta":  {
+                 "ContainerId":  "ac1dd34c6c28b99e0872316afe61dcfc3bda2d4c3f32a9ee36d1cc0a9244edb7",
+                 "DaemonPollRate":  0.1,
+                 "DaemonTimeout":  30
+             },
+    "Python":  {
+                   "Ver":  "3.11.3"
+               }
+}
