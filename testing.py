@@ -54,7 +54,7 @@ def visualise(mesh):
             z=vertsT[2],
             i=facesT[0],
             j=facesT[1],
-            k=facesT[2]
+            k=facesT[2],
         )
     ])
 
@@ -105,6 +105,14 @@ def main():
                 st.write("Minimum Weight Triangulation selected")
             if st.button("Bowyer-Watson Triangulation"):
                 st.write("Bowyer-Watson Triangulation selected")
+
+        #Slider for edge size
+        edge_size = st.slider("Edge size", min_value=0.0, max_value=10.0, value=1.0)
+        #Slider for tessellation size
+        tess_size = st.slider("Tessellation size", min_value=0.0, max_value=10.0, value=1.0)
+        #Create convert button
+        if st.button("Convert"):
+            st.write("Converted!")
 
     # Right column
     with right_col:
