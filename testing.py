@@ -64,22 +64,47 @@ def visualise(mesh):
 def main():
     st.title("Mesh Visualisation")
 
+    # Custom CSS to make all buttons the same size
+    st.markdown("""
+    <style>
+        .stButton>button {
+            width: 100%;
+            height: 60px;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
     # Left column
     left_col, right_col = st.columns([2,1])  # Adjust the ratio of the columns
 
     with left_col:
         st.subheader("Tessellation")  # Change to subheader for smaller text
-        if st.button("Kagome"):
-            st.write("Kagome selected")
-        if st.button("Tetrahedral"):
-            st.write("Tetrahedral selected")
+        col_1, col_2 = st.columns([1, 1])  # Create two columns side by side
+        with col_1:
+            if st.button("Kagome"):
+                st.write("Kagome selected")
+            if st.button("Tetrahedral"):
+                st.write("Tetrahedral selected")
+            if st.button("Icosahedral"):
+                st.write("Icosahedral selected")
+            if st.button("Voronoi"):
+                st.write("Voronoi selected")
+            if st.button("Rhombic"):
+                st.write("Rhombic selected")
 
         st.subheader("Node placement algorithm")  # Change to subheader for smaller text
         col1, col2 = st.columns([1, 1])  # Create two columns side by side
-        if col1.button("Delaunay Triangulation !"):
-            st.write("Delaunay Triangulation selected")
-        if col2.button("Minimum weight Triangulation !"):
-            st.write("Minimum weight Triangulation selected")
+        with col1:
+            if st.button("Delaunay Triangulation"):
+                st.write("Delaunay Triangulation selected")
+            if st.button("Voronoi Triangulation"):
+                st.write("Voronoi Triangulation selected")
+
+        with col2:
+            if st.button("Minimum Weight Triangulation"):
+                st.write("Minimum Weight Triangulation selected")
+            if st.button("Bowyer-Watson Triangulation"):
+                st.write("Bowyer-Watson Triangulation selected")
 
     # Right column
     with right_col:
