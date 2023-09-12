@@ -1,3 +1,4 @@
 meshlib
 numpy
 plotly
+streamlit
