@@ -116,17 +116,18 @@ def main():
         tess_size = st.slider("Tessellation size", min_value=0.0, max_value=10.0, value=1.0)
         #Create convert button
         if st.button("Convert"):
-            #Load the mesh
-            mesh = mm.loadMesh(mm.Path("pokemonstl/bulbasaur_demo.stl"))
-            #Modify mesh using edge_size and tess_size
-            mesh = mm.modifyMesh(mesh, edge_size)
-            mesh = mm.modifyMesh(mesh, tess_size)
-            #Visualise the mesh
-            fig = visualise(mesh, edge_size, tess_size)
-            with right_col:
-                st.header("Converted Mesh")
-                st.plotly_chart(fig)
             st.write("Converted!")
+            # #Load the mesh
+            # mesh = mm.loadMesh(mm.Path("pokemonstl/bulbasaur_demo.stl"))
+            # #Modify mesh using edge_size and tess_size
+            # mesh = mm.modifyMesh(mesh, edge_size)
+            # mesh = mm.modifyMesh(mesh, tess_size)
+            # #Visualise the mesh
+            # fig = visualise(mesh, edge_size, tess_size)
+            # with right_col:
+            #     st.header("Converted Mesh")
+            #     st.plotly_chart(fig)
+            # st.write("Converted!")
 
     # Right column
     with right_col:
