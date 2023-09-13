@@ -38,9 +38,12 @@ from meshlib import mrmeshnumpy as mn
 import numpy as np
 import plotly.graph_objects as go
 
-def visualise(mesh):
+def visualise(mesh, edge_size, tess_size):
     verts = mn.getNumpyVerts(mesh)
     faces = mn.getNumpyFaces(mesh.topology)
+
+    #Scale the vertices based on tessellation size
+    verts = verts * tess_size
 
     vertsT = np.transpose(verts)
     facesT = np.transpose(faces)
@@ -49,6 +52,7 @@ def visualise(mesh):
 
     fig = go.Figure(data=[
         go.Mesh3d(
+            #Modify edge_size and tess_size to scale the mesh
             x=vertsT[0],
             y=vertsT[1],
             z=vertsT[2],
@@ -113,12 +117,23 @@ def main():
         #Create convert button
         if st.button("Convert"):
             st.write("Converted!")
+            # #Load the mesh
+            # mesh = mm.loadMesh(mm.Path("pokemonstl/bulbasaur_demo.stl"))
+            # #Modify mesh using edge_size and tess_size
+            # mesh = mm.modifyMesh(mesh, edge_size)
+            # mesh = mm.modifyMesh(mesh, tess_size)
+            # #Visualise the mesh
+            # fig = visualise(mesh, edge_size, tess_size)
+            # with right_col:
+            #     st.header("Converted Mesh")
+            #     st.plotly_chart(fig)
+            # st.write("Converted!")
 
     # Right column
     with right_col:
         st.header("Mesh")
         mesh = mm.loadMesh(mm.Path("pokemonstl/bulbasaur_demo.stl"))
-        fig = visualise(mesh)
+        fig = visualise(mesh, edge_size, tess_size)
         st.plotly_chart(fig)
 
 if __name__ == "__main__":
