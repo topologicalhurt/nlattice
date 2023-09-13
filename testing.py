@@ -136,6 +136,12 @@ def main():
         fig = visualise(mesh, edge_size, tess_size)
         st.plotly_chart(fig)
 
+def update_mesh(mesh, edge_size, tess_size):
+    #Modify mesh using edge_size and tess_size
+    mesh = mm.modifyMesh(mesh, edge_size)
+    mesh = mm.modifyMesh(mesh, tess_size)
+    return mesh
+
 if __name__ == "__main__":
     main()
 
