@@ -59,6 +59,12 @@ def visualise(mesh, edge_size, tess_size):
             i=facesT[0],
             j=facesT[1],
             k=facesT[2],
+            # Add line property to the Mesh3d to control the edge size
+            line=dict(
+                color='black',
+                width=edge_size
+            ),
+
         )
     ])
 
@@ -136,11 +142,40 @@ def main():
         fig = visualise(mesh, edge_size, tess_size)
         st.plotly_chart(fig)
 
-def update_mesh(mesh, edge_size, tess_size):
-    #Modify mesh using edge_size and tess_size
-    mesh = mm.modifyMesh(mesh, edge_size)
-    mesh = mm.modifyMesh(mesh, tess_size)
+def update_mesh(event):
+    # #Modify mesh using edge_size and tess_size
+    # # mesh = mm.modifyMesh(mesh, edge_size)
+    # # mesh = mm.modifyMesh(mesh, tess_size)
+    # #Update mesh using values from sliders
+    # edge_size = edge_size_slider.get()
+    # tess_size = tess_size_slider.get()
+    # #update mesh
+    # mesh = mm.modifyMesh(mesh, edge_size)
+    # mesh = mm.modifyMesh(mesh, tess_size)
+
+    # edge_size_slider = Scale(root, from_=0, to=10, resolution=0.1, orient=HORIZONTAL, label="Edge size")
+    # tess_size_slider = Scale(root, from_=0, to=10, resolution=0.1, orient=HORIZONTAL, label="Tessellation size")
+
     return mesh
+
+def convert_mesh():
+    # #Replace the original mesh on the right column with the updated one
+    # fig = visualise(mesh, edge_size, tess_size)
+    # with right_col:
+    #     st.header("Converted Mesh")
+    #     st.plotly_chart(fig)
+    mesh = mm.loadMesh(mm.Path("pokemonstl/bulbasur_demo.stl"))
+    # Get the value from the sliders
+    edge_size = edeg_size_slider.get()
+    tess_size = tess_size_slider.get()
+    # Modify the mesh using values from the sliders
+    mesh = mm.modifyMesh(mesh, edge_size, tess_size)
+    # Show the modified mesh on the right column
+    fig = visualise(mesh, edge_size, tess_size)
+    with right_col:
+        st.header("Converted Mesh")
+        st.plotly_chart(fig)
+        
 
 if __name__ == "__main__":
     main()
