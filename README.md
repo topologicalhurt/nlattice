@@ -20,6 +20,7 @@ cd pymesh_sandbox
 wget -O setup.tar https://github.com/topologicalhurt/nlattice/raw/main/setup.zip
 tar xopf setup.tar
 cd setup
+chmod +x './script/linux/docker_setup.sh'
 python nlattice_docker_install_V0.0.1.py
 ```
 
