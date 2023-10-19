@@ -28,7 +28,7 @@ def visualise(mesh):
 
 
 if __name__ == "__main__":
-    mesh = mm.loadMesh(mm.Path("pokemonstl/bulbasaur_demo.stl"))
+    mesh = mm.loadMesh(mm.Path("pokemonstl/totodile_demo.stl"))
     # mesh = mm.loadMesh(mm.Path("pokemonstl/example1.mesh"))
     visualise(mesh)
 

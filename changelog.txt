@@ -18,3 +18,14 @@ By splitting long edges and collapsing short edges we achieve a more consistent 
     python generate_surface_mesh.py pokemonstl/bulbasaur_starter_1gen_flowalistik.stl 0.2 5
 + cleaned up some code
 * Note that args are currently not checked for errors sorry
+
+** Interior Grid Branch **
+
++ Added method to create a grid of points as large as the object
+and then drop all of the points not within the object
+(This creates a set of points in a grid that are inside the object)
+
+This is within the generate_surface_mesh.py,
+but uses file is_inside_mesh.py (so copy that to docker also if you want to test)
+
+Next step is to implement linking of the interior points then at least we will have a method to generate mesh
