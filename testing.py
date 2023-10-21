@@ -2,6 +2,7 @@ from meshlib import mrmeshpy as mm
 from meshlib import mrmeshnumpy as mn
 import numpy as np
 import plotly.graph_objects as go
+import vedo as vd
 
 
 def visualise(mesh):
@@ -28,8 +29,13 @@ def visualise(mesh):
 
 
 if __name__ == "__main__":
-    mesh = mm.loadMesh(mm.Path("pokemonstl/totodile_demo.stl"))
-    # mesh = mm.loadMesh(mm.Path("pokemonstl/example1.mesh"))
-    visualise(mesh)
+    # mesh = mm.loadMesh(mm.Path("pokemonstl/totodile_demo.stl"))
+    # mesh = mm.loadMesh(mm.Path("pokemonstl/example.stl"))
+    # visualise(mesh)
+
+    man = vd.load("pokemonstl/point_test_demo180noSLE.stl")
+    vd.show(man)
+
+
 
 

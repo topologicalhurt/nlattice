@@ -2,6 +2,7 @@ import pymesh as pm
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
+import numpy as np
 from is_inside_mesh import is_inside_turbo as is_inside
 
 
@@ -70,18 +71,19 @@ def generate_interior_points(mesh, spacing):
     return P
 
 
-def get_wireframe(mesh):
-    v, e = get_wire_info_prototype(mesh)
-    return get_wire_info(v, e)
+def get_wireframe(mesh, inner_points):
+    v, f = get_wire_info_prototype(mesh)
+    return get_wire_info(v, f, inner_points)
 
 
 def get_wire_info_prototype(mesh):
     return np.dot(mesh.vertices, 3), mesh.faces
 
 
-def get_wire_info(vertices, faces):
+def edges_from_faces(vertices, faces):
     edges = []
     check = []
+    # check is to ensure we don't double up
     for f in range(len(vertices)):
         inner = []
         for v in range(len(vertices)):
@@ -90,9 +92,13 @@ def get_wire_info(vertices, faces):
 
     for v in range(len(faces)):
 
-        for a in range(len(faces[v]) - 1):
-            x = faces[v][a]
-            y = faces[v][a + 1]
+        for a in range(len(faces[v])):
+            if a >= len(faces[v]) - 1:
+                x = faces[v][0]
+                y = faces[v][a]
+            else:
+                x = faces[v][a]
+                y = faces[v][a + 1]
             if x == y:
                 continue
             if check[x][y]:
@@ -101,12 +107,50 @@ def get_wire_info(vertices, faces):
             check[x][y] = True
             check[y][x] = True
             edges.append(temp)
+    return np.array(edges)
 
-    np_edges = np.array(edges)
-    # Debugging lines
-    # print("EDGES")
-    # print(np_edges)
+
+def get_wire_info(vertices, faces, inner_points):
+    # switching to the wrapper of si's tetgen library to try and get tetrahedral voxels of the object
+    tet = pm.tetgen()
+    tet.points = vertices
+    tet.triangles = faces
+    # tet.keep_convex_hull = True
+    tet.max_tet_volume = 180
+    # tet.min_dihedral_angle = 15.0
+    tet.verbosity = 1
+    tet.run()
+    new_mesh = tet.mesh
+    faces = new_mesh.voxels
+    print(new_mesh.voxels)
+    vertices = new_mesh.vertices
+
+    np_edges = edges_from_faces(vertices, faces)
+
+    # print(vertices)
+    # print(inner_points)
+    # all_points = np.concatenate((vertices, inner_points))
+    # np.save("all_points", all_points)
+    # interior_points, interior_edges = meshify_inside(inner_points)
+
     return vertices, np_edges
+
+
+def meshify_inside(inner_points):
+    # Singular triangle
+    temp = inner_points[0][0]
+    vertices = []
+    for i in range(len(inner_points)):
+        if inner_points[i][0] == temp:
+            vertices.append(inner_points[i])
+    vertices_np = np.array(vertices)
+    tri = pm.triangle()
+    tri.points = vertices_np
+    tri.run()
+    mesh_face = tri.mesh
+    print(tri.points)
+
+    return vertices_np, "hi"
 
 
 def parse_args():
@@ -127,9 +171,9 @@ if __name__ == "__main__":
     path, thickness, longest_line = parse_args()
     mesh = pm.load_mesh(path)
     # Generate box for testing below
-    # mesh = pm.generate_box_mesh(np.array([0, 0, 0]), np.array([20, 20, 20]), using_simplex=True)
+    box_mesh = pm.generate_box_mesh(np.array([0, 0, 0]), np.array([5, 5, 5]), using_simplex=True)
     mesh, __ = pm.collapse_short_edges(mesh, rel_threshold=0.30)
-    mesh, info = pm.split_long_edges(mesh, longest_line)
+    # mesh, info = pm.split_long_edges(mesh, longest_line)
 
     print("Vertices, faces, voxels")
     print(mesh.num_vertices, mesh.num_faces, mesh.num_voxels)
@@ -139,14 +183,15 @@ if __name__ == "__main__":
     interior_points = generate_interior_points(mesh, longest_line)
     plot_points_plt(interior_points)
 
-    vertices, edges = get_wireframe(mesh)
+    vertices, edges = get_wireframe(mesh, interior_points)
     wire_network = pm.wires.WireNetwork.create_from_data(vertices, edges)
 
     print_wire_data(wire_network)
     # Inflator
     inflator = pm.wires.Inflator(wire_network)
-    inflator.inflate(thickness)
+    inflator.inflate(thickness, allow_self_intersection=True)
     mesh = inflator.mesh
 
+    print("inflated, saving now")
     # save the mesh
-    pm.save_mesh("point_test_demo.stl", mesh)
+    pm.save_mesh("point_test_demo180noSLE.stl", mesh)
