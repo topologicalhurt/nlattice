@@ -33,7 +33,7 @@ if __name__ == "__main__":
     # mesh = mm.loadMesh(mm.Path("pokemonstl/example.stl"))
     # visualise(mesh)
 
-    man = vd.load("pokemonstl/point_test_demo180noSLE.stl")
+    man = vd.load("pokemonstl/point_test_demo180refined.stl")
     vd.show(man)
 
 

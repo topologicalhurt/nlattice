@@ -77,7 +77,7 @@ def get_wireframe(mesh, inner_points):
 
 
 def get_wire_info_prototype(mesh):
-    return np.dot(mesh.vertices, 3), mesh.faces
+    return np.dot(mesh.vertices, 1), mesh.faces
 
 
 def edges_from_faces(vertices, faces):
@@ -117,7 +117,7 @@ def get_wire_info(vertices, faces, inner_points):
     tet.triangles = faces
     # tet.keep_convex_hull = True
     tet.max_tet_volume = 180
-    # tet.min_dihedral_angle = 15.0
+    tet.min_dihedral_angle = 15.0
     tet.verbosity = 1
     tet.run()
     new_mesh = tet.mesh
@@ -187,11 +187,13 @@ if __name__ == "__main__":
     wire_network = pm.wires.WireNetwork.create_from_data(vertices, edges)
 
     print_wire_data(wire_network)
+    wire_network.trim()
     # Inflator
     inflator = pm.wires.Inflator(wire_network)
+    # inflator.set_refinement(2, "loop")
     inflator.inflate(thickness, allow_self_intersection=True)
     mesh = inflator.mesh
 
     print("inflated, saving now")
     # save the mesh
-    pm.save_mesh("point_test_demo180noSLE.stl", mesh)
+    pm.save_mesh("point_test_demo180trimmed.stl", mesh)
