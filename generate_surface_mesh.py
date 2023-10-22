@@ -59,21 +59,19 @@ def edges_from_faces(vertices, faces):
 
     for v in range(len(faces)):
 
-        for a in range(len(faces[v])):
-            if a >= len(faces[v]) - 1:
-                x = faces[v][0]
-                y = faces[v][a]
-            else:
-                x = faces[v][a]
-                y = faces[v][a + 1]
-            if x == y:
-                continue
-            if check[x][y]:
-                continue
-            temp = np.array([x, y])
-            check[x][y] = True
-            check[y][x] = True
-            edges.append(temp)
+        for i in range(len(faces[v])):
+            for j in range(i+1):
+                if i == j:
+                    continue
+
+                x = faces[v][i]
+                y = faces[v][j]
+                if check[x][y]:
+                    continue
+                temp = np.array([x, y])
+                check[x][y] = True
+                check[y][x] = True
+                edges.append(temp)
     return np.array(edges)
 
 
@@ -125,7 +123,7 @@ if __name__ == "__main__":
     # interior_points = generate_interior_points(mesh, longest_line)
     # plot_points_plt(interior_points)
 
-    vertices, edges = get_wireframe(mesh)
+    vertices, edges = get_wireframe(box_mesh)
     wire_network = pm.wires.WireNetwork.create_from_data(vertices, edges)
 
     print_wire_data(wire_network)
